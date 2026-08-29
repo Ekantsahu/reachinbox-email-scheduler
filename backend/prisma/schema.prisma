@@ -7,90 +7,85 @@ datasource db {
   provider = "postgresql"
 }
 
-enum EmailStatus {
-  SCHEDULED
-  PROCESSING
-  SENT
-  FAILED
-}
-
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
-  name      String?
-  avatarUrl String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-
-  senders   Sender[]
-  campaigns Campaign[]
+  id              String           @id @default(cuid())
+  name            String?
+  email           String           @unique
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  avatarUrl       String?
+  campaigns       Campaign[]
+  senders         Sender[]
   slackConnection SlackConnection?
 }
 
 model SlackConnection {
-  id           String   @id @default(cuid())
-  userId       String   @unique
-  accessToken  String
-  teamId       String?
-  teamName     String?
-  slackUserId  String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  accessToken String
+  teamId      String?
+  teamName    String?
+  slackUserId String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Sender {
-  id          String     @id @default(cuid())
-  userId      String
-  email       String
-  name        String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-
-  user        User       @relation(fields: [userId], references: [id])
-  campaigns   Campaign[]
-  emails      Email[]
+  id        String     @id @default(cuid())
+  userId    String
+  email     String
+  name      String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  campaigns Campaign[]
+  emails    Email[]
+  user      User       @relation(fields: [userId], references: [id])
 
   @@unique([userId, email])
 }
 
 model Campaign {
-  id             String   @id @default(cuid())
-  userId         String
-  senderId       String
-  subject        String
-  body           String
-  startTime      DateTime
-  delayMs        Int
-  hourlyLimit    Int
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  user           User     @relation(fields: [userId], references: [id])
-  sender         Sender   @relation(fields: [senderId], references: [id])
-  emails         Email[]
+  id          String   @id @default(cuid())
+  userId      String
+  subject     String
+  body        String
+  startTime   DateTime
+  delayMs     Int
+  hourlyLimit Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  senderId    String
+  sender      Sender   @relation(fields: [senderId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+  emails      Email[]
 }
 
 model Email {
   id          String      @id @default(cuid())
   campaignId  String
-  senderId    String
   recipient   String
   subject     String
   body        String
   scheduledAt DateTime
   sentAt      DateTime?
   status      EmailStatus @default(SCHEDULED)
-  messageId   String?
-  error       String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-
+  error       String?
+  messageId   String?
+  senderId    String
   campaign    Campaign    @relation(fields: [campaignId], references: [id])
   sender      Sender      @relation(fields: [senderId], references: [id])
 
   @@index([status])
   @@index([scheduledAt])
   @@index([recipient])
+}
+
+enum EmailStatus {
+  SCHEDULED
+  PROCESSING
+  SENT
+  FAILED
 }
