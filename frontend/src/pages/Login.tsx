@@ -1,7 +1,6 @@
 export default function Login() {
   const handleGoogleLogin = () => {
-    window.location.href =
-      `${import.meta.env.VITE_API_URL}/api/auth/google`;
+    window.location.href = "http://localhost:5000/api/auth/google";
   };
 
   return (
@@ -27,12 +26,7 @@ export default function Login() {
             onClick={handleGoogleLogin}
             className="flex w-full items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
           >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 fill="#4285F4"
                 d="M21.35 12.23c0-.79-.07-1.55-.22-2.27H12v4.3h5.24a4.48 4.48 0 0 1-1.95 2.94v2.45h3.16c1.85-1.7 2.9-4.2 2.9-7.42Z"
@@ -50,13 +44,12 @@ export default function Login() {
                 d="M12 6.39c1.44 0 2.73.5 3.75 1.48l2.81-2.81C16.86 3.43 14.65 2.5 12 2.5a9.8 9.8 0 0 0-8.78 5.41l2.96 2.53C7.27 8.12 9.44 6.39 12 6.39Z"
               />
             </svg>
-
             Continue with Google
           </button>
 
           <p className="mt-6 text-center text-xs text-gray-500">
-            By continuing, you agree to use ReachInbox for managing
-            your email campaigns.
+            By continuing, you agree to use ReachInbox for managing your email
+            campaigns.
           </p>
         </div>
       </div>
