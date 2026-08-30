@@ -1,9 +1,13 @@
 import "dotenv/config";
+import path from "path";
+import express from "express";
 import app from "./app.js";
 import { prisma } from "./config/database.js";
 import { createEmailIndex } from "./services/elasticsearch.service.js";
 
 const PORT = process.env.PORT || 5000;
+
+app.use(express.static(path.join(process.cwd(), "public")));
 
 async function startServer() {
   try {
