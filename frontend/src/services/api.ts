@@ -6,7 +6,7 @@ import type {
 } from "../types/email";
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "https://reachinbox-email-scheduler-28b1.onrender.com/api";
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 async function apiRequest<T>(
   endpoint: string,
