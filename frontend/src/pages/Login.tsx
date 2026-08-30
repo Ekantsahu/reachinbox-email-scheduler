@@ -1,7 +1,7 @@
 export default function Login() {
   const handleGoogleLogin = () => {
     window.location.href =
-      "https://reachinbox-email-scheduler-28b1.onrender.com/api/auth/google";
+      `${import.meta.env.VITE_API_URL}/api/auth/google`;
   };
 
   return (
