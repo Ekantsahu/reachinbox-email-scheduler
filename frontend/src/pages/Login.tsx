@@ -1,7 +1,7 @@
 export default function Login() {
   const handleGoogleLogin = () => {
     window.location.href =
-      "http://localhost:5000/api/auth/google";
+      "https://reachinbox-email-scheduler-28b1.onrender.com/api/auth/google";
   };
 
   return (
